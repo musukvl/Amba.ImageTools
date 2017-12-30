@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Async;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Amba.ImageTools.Infrastructure;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using SixLabors.ImageSharp;
@@ -34,7 +37,7 @@ namespace Amba.ImageTools.Commands
             var angleOption = command.Option("-a | --a | --angle", "Angle.", CommandOptionType.SingleValue);
             var outputOption = command.Option("-o | --o | --output", "Output file or folder.", CommandOptionType.SingleValue);
 
-            command.OnExecute(async () =>
+            command.OnExecute(() =>
             {
                 var path = pathArgument.GetValue(defaultValue: Directory.GetCurrentDirectory());
                 var pattern = patternOption.GetValue(defaultValue: "*.jpg");
@@ -55,23 +58,18 @@ namespace Amba.ImageTools.Commands
                     }
 
                     var filesToProcess = Directory.GetFiles(path, pattern);
-                    await filesToProcess.ParallelForEachAsync(async (file, state) =>
+                    Parallel.ForEach(filesToProcess, (file) =>
                     {
                         var fileName = Path.GetFileName(file);
                         var fileOutput = Path.Combine(output, fileName);
                         RotateImage(file, angle, fileOutput);
-                        new ConsoleLine().Write(file).Write(" [").Write("OK", ConsoleColor.Green).WriteLine("]");
+                        new ConsoleLine().Write(file).Write(" [").Write("OK", ConsoleColor.Green).WriteLine("]");                        
                     });
                 }
                 else if (File.Exists(path))
                 {
                     RotateImage(path, angle, output);
-                }
-                else
-                {
-                    
-                }
-
+                }                
                 return 0;
             });
         }

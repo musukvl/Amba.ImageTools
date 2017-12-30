@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
+using Amba.ImageTools.Infrastructure;
 
 namespace Amba.ImageTools.Commands
 {
