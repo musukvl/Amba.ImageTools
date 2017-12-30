@@ -6,14 +6,14 @@ namespace Amba.ImageTools.Commands
 {
     public class HwCommand : ICommand
     {
-        private readonly ILogger<RotateCommand> _logger;
+        private readonly ILogger<HwCommand> _logger;
 
         public string Name
         {
             get { return "hw"; }
         }
 
-        public HwCommand(ILogger<RotateCommand> logger)
+        public HwCommand(ILogger<HwCommand> logger)
         {
             _logger = logger;
         }

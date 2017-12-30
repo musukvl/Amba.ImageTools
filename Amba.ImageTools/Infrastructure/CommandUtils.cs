@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Microsoft.Extensions.CommandLineUtils;
 
-namespace Amba.ImageTools.Commands
+namespace Amba.ImageTools.Infrastructure
 {
     public static class CommandUtils
     {

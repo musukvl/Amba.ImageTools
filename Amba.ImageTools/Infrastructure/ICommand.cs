@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.CommandLineUtils;
 
-namespace Amba.ImageTools.Commands
+namespace Amba.ImageTools.Infrastructure
 {
     public interface ICommand
     {

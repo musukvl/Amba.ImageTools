@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Amba.ImageTools.Commands
+namespace Amba.ImageTools.Infrastructure
 {
     public class ConsoleLine
     {         

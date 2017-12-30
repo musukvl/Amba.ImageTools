@@ -288,3 +288,4 @@ __pycache__/
 *.xsd.cs
 .idea
 .vs
+/Amba.ImageTools/logs
