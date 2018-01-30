@@ -81,7 +81,7 @@ namespace Amba.ImageTools.Commands
                 output = input;
             }
             using (Image<Rgba32> image = SixLabors.ImageSharp.Image.Load(input))
-            {
+            {                
                 image.Mutate(x => x
                     .Rotate(angle));                
                 image.Save(output); // automatic encoder selected based on extension.

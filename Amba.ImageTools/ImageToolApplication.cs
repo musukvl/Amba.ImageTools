@@ -24,6 +24,8 @@ namespace Amba.ImageTools
         {
             serviceCollection.AddSingleton<ICommand, HwCommand>();
             serviceCollection.AddSingleton<ICommand, RotateCommand>();
+            serviceCollection.AddSingleton<ICommand, FixMediaNamesCommand>();
+            
         }
 
         public void Run(params string[] args)

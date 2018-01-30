@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "rotate": {
+      "commandName": "Project",
+      "commandLineArgs": "rotate -a 180 \"I:\\test-images\""
+    },
+    "fix-names": {
+      "commandName": "Project",
+      "commandLineArgs": "fix-names \"I:\\test-photos\""
+    },
+    "Amba.ImageTools": {
+      "commandName": "Executable"
+    }
+  }
+}
