@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Amba.ImageTools.Commands;
 using Amba.ImageTools.Infrastructure;
@@ -9,12 +11,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Amba.ImageTools
 {
-    public class ImageToolApplication : IConsoleApplication
+    public class Application : IConsoleApplication
     {
-        private readonly ILogger<ImageToolApplication> _logger;
+        private readonly ILogger<Application> _logger;
         public IServiceProvider Services { get; set; }
 
-        public ImageToolApplication(IServiceProvider serviceProvider, ILogger<ImageToolApplication> logger)
+        public Application(IServiceProvider serviceProvider, ILogger<Application> logger)
         {
             _logger = logger;
             Services = serviceProvider;
@@ -22,10 +24,30 @@ namespace Amba.ImageTools
 
         public static void ConfigureServices(IServiceCollection serviceCollection, IConfiguration configuration)
         {
+            RegisterCommands(serviceCollection);
+            /*
             serviceCollection.AddSingleton<ICommand, HwCommand>();
             serviceCollection.AddSingleton<ICommand, RotateCommand>();
-            serviceCollection.AddSingleton<ICommand, FixMediaNamesCommand>();
-            
+            serviceCollection.AddSingleton<ICommand, FixMediaNamesCommand>();  
+            */
+        }
+
+
+        private static void RegisterCommands(IServiceCollection serviceCollection)
+        {
+            var all = Assembly
+                .GetEntryAssembly()
+                .GetReferencedAssemblies()
+                .Union(new List<AssemblyName>{ Assembly.GetEntryAssembly().GetName()})
+                .Select(Assembly.Load)
+                .SelectMany(x => x.DefinedTypes)
+                .Where(type => typeof(ICommand).GetTypeInfo().IsAssignableFrom(type.AsType()) && type != typeof(ICommand))
+                .Select(x => x)
+                .ToList();
+            foreach (var ti in all)
+            {
+                serviceCollection.AddSingleton(typeof(ICommand), ti.AsType());                
+            }
         }
 
         public void Run(params string[] args)

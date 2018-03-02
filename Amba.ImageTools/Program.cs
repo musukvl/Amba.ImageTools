@@ -6,10 +6,10 @@ namespace Amba.ImageTools
     {
         static void Main(string[] args)
         {
-            var applicationBuilder = new ApplicationBuilder<ImageToolApplication>();
+            var applicationBuilder = new ApplicationBuilder<Application>();
             var application = applicationBuilder
                 .ReadConfiguration()
-                .RegisterServices((serviceCollection, configuration) => ImageToolApplication.ConfigureServices(serviceCollection, configuration))
+                .RegisterServices((serviceCollection, configuration) => Application.ConfigureServices(serviceCollection, configuration))
                 .Build();
             application.Run(args);
         }        

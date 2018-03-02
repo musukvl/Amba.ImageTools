@@ -2,14 +2,15 @@
   "profiles": {
     "rotate": {
       "commandName": "Project",
-      "commandLineArgs": "rotate -a 180 \"I:\\test-images\""
+      "commandLineArgs": "rotate -a 180 \"D:\\test-images\""
     },
     "fix-names": {
       "commandName": "Project",
-      "commandLineArgs": "fix-names \"I:\\test-photos\""
+      "commandLineArgs": "fix-names \"D:\\test-images\""
     },
     "Amba.ImageTools": {
-      "commandName": "Executable"
+      "commandName": "Project",
+      "commandLineArgs": "hw world"
     }
   }
 }

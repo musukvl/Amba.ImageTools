@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Amba.ImageTools.Infrastructure;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
-using SixLabors.ImageSharp;
 
 namespace Amba.ImageTools.Commands
 {
@@ -80,12 +79,14 @@ namespace Amba.ImageTools.Commands
             {
                 output = input;
             }
+            /*
             using (Image<Rgba32> image = SixLabors.ImageSharp.Image.Load(input))
             {                
                 image.Mutate(x => x
                     .Rotate(angle));                
                 image.Save(output); // automatic encoder selected based on extension.
             }
+            */
         }
     }
 }
