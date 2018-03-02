@@ -16,6 +16,13 @@ namespace Amba.ImageTools.Infrastructure
             return commandArgument.Value;
         }
 
+        public static T GetValue<T>(this CommandArgument commandArgument, T defaultValue = default(T))
+        {            
+            var converter = TypeDescriptor.GetConverter(typeof(T));
+            return (T)converter.ConvertFromString(commandArgument.Value); 
+        }
+
+
         public static string GetValue(this CommandOption commandOption, string defaultValue = null)
         {
             if (!commandOption.HasValue())

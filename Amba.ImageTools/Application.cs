@@ -25,11 +25,6 @@ namespace Amba.ImageTools
         public static void ConfigureServices(IServiceCollection serviceCollection, IConfiguration configuration)
         {
             RegisterCommands(serviceCollection);
-            /*
-            serviceCollection.AddSingleton<ICommand, HwCommand>();
-            serviceCollection.AddSingleton<ICommand, RotateCommand>();
-            serviceCollection.AddSingleton<ICommand, FixMediaNamesCommand>();  
-            */
         }
 
 
