@@ -94,7 +94,7 @@ namespace Amba.ImageTools.Commands
                         DateTime lastWriteTime = File.GetLastWriteTime(file);
                         if (lastWriteTime != DateTime.MinValue)
                         {
-                            newName = lastWriteTime.ToString("yyyyMM-dd HH-mm-ss") + extension;
+                            newName = lastWriteTime.ToString("yyyy-MM-dd HH-mm-ss") + extension;
                         }
                     }
 
