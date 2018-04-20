@@ -2,7 +2,7 @@
   "profiles": {
     "rotate": {
       "commandName": "Project",
-      "commandLineArgs": "rotate -a 180 \"D:\\test-images\""
+      "commandLineArgs": "rotate -a 180 \"D:\\test-images2\""
     },
     "fix-names": {
       "commandName": "Project",

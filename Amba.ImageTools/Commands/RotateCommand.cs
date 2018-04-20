@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Async;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Amba.ImageTools.Infrastructure;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.MetaData.Profiles.Exif;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Transforms;
 
 namespace Amba.ImageTools.Commands
 {
@@ -79,14 +85,14 @@ namespace Amba.ImageTools.Commands
             {
                 output = input;
             }
-            /*
+           
             using (Image<Rgba32> image = SixLabors.ImageSharp.Image.Load(input))
             {                
                 image.Mutate(x => x
                     .Rotate(angle));                
                 image.Save(output); // automatic encoder selected based on extension.
             }
-            */
+            
         }
     }
 }

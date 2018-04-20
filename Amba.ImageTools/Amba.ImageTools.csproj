@@ -36,6 +36,8 @@
 
     <PackageReference Include="AsyncEnumerator" Version="2.1.0" />
 
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0003" />
+
   </ItemGroup>
 
   <ItemGroup>
