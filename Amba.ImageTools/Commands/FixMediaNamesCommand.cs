@@ -65,7 +65,7 @@ namespace Amba.ImageTools.Commands
                         var hour = match.Groups[5].Value;
                         var min = match.Groups[6].Value;
                         var sec = match.Groups[7].Value; 
-                        newName = $"{year}-{month}-{day} {hour}-{min}-{sec}.{extension}";
+                        newName = $"{year}-{month}-{day} {hour}-{min}-{sec}{extension}";
                     }
                     
                     //try extract date from EXIF
