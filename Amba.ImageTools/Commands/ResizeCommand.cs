@@ -12,19 +12,20 @@ using SixLabors.ImageSharp.MetaData.Profiles.Exif;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Processing.Transforms;
+using SixLabors.Primitives;
 
 namespace Amba.ImageTools.Commands
 {
-    public class RotateCommand : ICommand
+    public class ResizeCommand : ICommand
     {
         private readonly ILogger<RotateCommand> _logger;
 
         public string Name
         {
-            get { return "rotate"; }
+            get { return "resize"; }
         }
 
-        public RotateCommand(ILogger<RotateCommand> logger)
+        public ResizeCommand(ILogger<RotateCommand> logger)
         {
             _logger = logger;
         }
@@ -39,21 +40,32 @@ namespace Amba.ImageTools.Commands
                 "-p | --p | --pattern",
                 "File matching pattern. Default is *.jpg", CommandOptionType.SingleValue);
 
-            var angleOption = command.Option("-a | --a | --angle", "Angle.", CommandOptionType.SingleValue);
+            var widthOption = command.Option("-w | --w | --width", "Angle.", CommandOptionType.SingleValue);
+            var heightOption = command.Option("-h | --h | --heigth", "Angle.", CommandOptionType.SingleValue);
             var outputOption = command.Option("-o | --o | --output", "Output file or folder.", CommandOptionType.SingleValue);
 
             command.OnExecute(() =>
             {
                 var path = pathArgument.GetValue(defaultValue: Directory.GetCurrentDirectory());
                 var pattern = patternOption.GetValue(defaultValue: "*.jpg");
-                var angle = angleOption.GetValue<int>(defaultValue: 90);
-
+            
                 var output = outputOption.GetValue(path);
     
                 _logger.LogInformation($@"Rotate started on path = {path}\{pattern}");
 
                 var pathAttributes = System.IO.File.GetAttributes(path);
-                
+
+                var size = new Size()
+                {
+                    Height = heightOption.GetValue<int>(),
+                    Width = widthOption.GetValue<int>(),
+                };
+                if (size.Height == 0 && size.Width == 0)
+                {
+                    Console.WriteLine("Width or height parameter not set");
+                    return 1;
+                }
+
                 if (pathAttributes.HasFlag(FileAttributes.Directory))
                 {
                     // check output directory exists
@@ -69,24 +81,24 @@ namespace Amba.ImageTools.Commands
                         {
                             var fileName = Path.GetFileName(file);
                             var fileOutput = Path.Combine(output, fileName);
-                            RotateImage(file, angle, fileOutput);
-                            ConsoleLine.WriteLine(file, "OK");
+                            ResizeImage(file, size, fileOutput);
                         }
                         catch (Exception e)
                         {
                             ConsoleLine.WriteError(file, e.Message);
                         }
+
                     });
                 }
                 else if (File.Exists(path))
                 {
-                    RotateImage(path, angle, output);
+                    ResizeImage(path, size, output);
                 }                
                 return 0;
             });
         }
 
-        private static void RotateImage(string input, int angle, string output = null)
+        private static void ResizeImage(string input, Size size, string output = null)
         {
             if (string.IsNullOrWhiteSpace(output))
             {
@@ -94,10 +106,22 @@ namespace Amba.ImageTools.Commands
             }
            
             using (Image<Rgba32> image = SixLabors.ImageSharp.Image.Load(input))
-            {                
+            {
+                var originSize = image.Size();
+                if ((size.Width != 0 && originSize.Width == size.Width ||
+                    size.Height != 0 && originSize.Height == size.Height) && input == output)
+                {
+                    ConsoleLine.WriteLine(input, "Skip", ConsoleColor.DarkYellow);
+                    return;
+                }
                 image.Mutate(x => x
-                    .Rotate(angle));                
+                    .Resize(new ResizeOptions()
+                    {
+                        Mode = ResizeMode.Max,
+                        Size = size
+                    }));                
                 image.Save(output); // automatic encoder selected based on extension.
+                ConsoleLine.WriteSuccess($"{input} {originSize.Width}x{originSize.Height} => {image.Width}x{image.Height} ");
             }
             
         }

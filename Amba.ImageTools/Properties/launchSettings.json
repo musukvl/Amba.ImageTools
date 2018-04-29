@@ -8,6 +8,14 @@
       "commandName": "Project",
       "commandLineArgs": "fix-names \"D:\\test-images\""
     },
+    "resize": {
+      "commandName": "Project",
+      "commandLineArgs": "resize \"D:\\test-images-resize\" -w 1000 -h 1000"
+    },
+    "ordered-names": {
+      "commandName": "Project",
+      "commandLineArgs": "ordered-names \"D:\\test-images\""
+    },
     "Amba.ImageTools": {
       "commandName": "Project",
       "commandLineArgs": "hw world"
