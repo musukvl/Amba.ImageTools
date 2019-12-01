@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using Amba.ImageTools.Infrastructure;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.MetaData.Profiles.Exif;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace Amba.ImageTools.Commands
 {

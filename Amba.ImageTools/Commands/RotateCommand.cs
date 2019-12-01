@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Async;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,10 +6,8 @@ using Amba.ImageTools.Infrastructure;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.MetaData.Profiles.Exif;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing.Transforms;
 
 namespace Amba.ImageTools.Commands
 {
@@ -35,12 +31,13 @@ namespace Amba.ImageTools.Commands
                 "path",
                 "Path to file or folder to process. Runs on current folder if empty.", false);
 
-            var patternOption = command.Option(               
+            var patternOption = command.Option(
                 "-p | --p | --pattern",
                 "File matching pattern. Default is *.jpg", CommandOptionType.SingleValue);
 
             var angleOption = command.Option("-a | --a | --angle", "Angle.", CommandOptionType.SingleValue);
-            var outputOption = command.Option("-o | --o | --output", "Output file or folder.", CommandOptionType.SingleValue);
+            var outputOption = command.Option("-o | --o | --output", "Output file or folder.",
+                CommandOptionType.SingleValue);
 
             command.OnExecute(() =>
             {
@@ -49,11 +46,11 @@ namespace Amba.ImageTools.Commands
                 var angle = angleOption.GetValue<int>(defaultValue: 90);
 
                 var output = outputOption.GetValue(path);
-    
+
                 _logger.LogInformation($@"Rotate started on path = {path}\{pattern}");
 
                 var pathAttributes = System.IO.File.GetAttributes(path);
-                
+
                 if (pathAttributes.HasFlag(FileAttributes.Directory))
                 {
                     // check output directory exists
@@ -81,7 +78,8 @@ namespace Amba.ImageTools.Commands
                 else if (File.Exists(path))
                 {
                     RotateImage(path, angle, output);
-                }                
+                }
+
                 return 0;
             });
         }
@@ -92,14 +90,11 @@ namespace Amba.ImageTools.Commands
             {
                 output = input;
             }
-           
-            using (Image<Rgba32> image = SixLabors.ImageSharp.Image.Load(input))
-            {                
-                image.Mutate(x => x
-                    .Rotate(angle));                
-                image.Save(output); // automatic encoder selected based on extension.
-            }
-            
+
+            using var image = SixLabors.ImageSharp.Image.Load(input);
+            image.Mutate(x => x
+                .Rotate(angle));
+            image.Save(output); // automatic encoder selected based on extension.
         }
     }
 }

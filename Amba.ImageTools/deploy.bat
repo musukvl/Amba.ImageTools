@@ -1,0 +1,1 @@
+dotnet publish -c Release -r win10-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=true --output C:\apps\amba.imagetools
